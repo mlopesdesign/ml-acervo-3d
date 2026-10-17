@@ -1,3 +1,5 @@
-- Trocar de tela é instantâneo mesmo com a leitura das pastas em andamento: Configurações não fica mais em "Carregando...".
-- A procura de arquivos numa pasta grande ficou muito mais rápida: uma única listagem do Windows no lugar de milhares de consultas.
-- Arquivos já lidos não são relidos por diferença mínima de horário entre listagens.
+- Navegação por pastas: na barra lateral, a seta ao lado da pasta abre as subpastas, com o total de arquivos de cada uma.
+- Na biblioteca, as subpastas aparecem como blocos no topo e a trilha (Biblioteca › 3D › Animais) leva de volta a qualquer nível.
+- "Incluir subpastas": desligado, mostra só os arquivos que estão direto na pasta aberta.
+- Nova ordem "Separar por pasta": a galeria ganha um título para cada pasta. Clique no título para abrir a pasta.
+- A busca também encontra pelo nome da subpasta.
