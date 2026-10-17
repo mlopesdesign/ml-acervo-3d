@@ -2,11 +2,14 @@
 # publicar/versao.txt  → número da versão (ex.: 1.1.0)
 # publicar/notas.md    → o que mudou
 # publicar/*.exe e publicar/resources.neu → arquivos da release
+# Toda release leva também ML-Acervo-3D-Setup.exe (nome fixo): o site ML Tools baixa sempre por
+# https://github.com/mlopesdesign/ml-acervo-3d/releases/latest/download/ML-Acervo-3D-Setup.exe
 name: Publicar versão
 on:
   push:
     branches: [main]
-    paths: ['publicar/versao.txt']
+    paths: ['publicar/versao.txt', '.github/workflows/publicar.yml']
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
@@ -19,6 +22,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           V=$(tr -d ' \r\n' < publicar/versao.txt)
-          if gh release view "v$V" >/dev/null 2>&1; then echo "v$V já existe"; exit 0; fi
-          gh release create "v$V" publicar/resources.neu publicar/ML-Acervo-3D-Setup-v$V.exe \
+          cp "publicar/ML-Acervo-3D-Setup-v$V.exe" ML-Acervo-3D-Setup.exe
+          if gh release view "v$V" >/dev/null 2>&1; then
+            echo "v$V já existe: garante o instalador de nome fixo"
+            gh release upload "v$V" ML-Acervo-3D-Setup.exe --clobber
+            exit 0
+          fi
+          gh release create "v$V" publicar/resources.neu "publicar/ML-Acervo-3D-Setup-v$V.exe" ML-Acervo-3D-Setup.exe \
             --title "ML Acervo 3D $V" --notes-file publicar/notas.md --target main --latest
